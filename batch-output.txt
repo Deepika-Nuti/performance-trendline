@@ -1,0 +1,54 @@
+
+======================================================
+BATCH EVALUATION RESULTS
+======================================================
+
+Total Rows Processed: 30
+
+--- METRICS REGISTRY (39) ---
+[✓] ROUGE-1 (Guide)                     -> 0.6356
+[✓] ROUGE-L (Guide)                     -> 0.5465
+[✓] ROUGE-2 (Guide)                     -> 0.5822
+[✓] Precision                           -> 0.7026
+[✓] Recall                              -> 0.6356
+[✓] F1 Score                            -> 0.6623
+[✓] BLEU (Guide)                        -> 0.6306
+[✓] Semantic Similarity                 -> 0.6039
+[✓] WER                                 -> 0.4893
+[✓] Faithfulness                        -> 0.6658
+[✓] Hallucination Flag                  -> 0.3333
+[✓] Completeness Flag                   -> 0.8667
+[✓] Accuracy                            -> 54.6501
+[✓] Row Overall                         -> 62.0000
+[✓] Aggregate Overall                   -> 68.0000
+[✓] BLEU-4                              -> 0.4518
+[✓] ROUGE-N                             -> 0.6033
+[✓] ROUGE-L                             -> 0.5735
+[✓] ROUGE-S                             -> 0.4382
+[✓] Perplexity                          -> 1.4191
+[✓] TruthfulQA                          -> 0.3333
+[-] Attack Success Rate                 -> skipped (no adversarial prompts detected in this batch)
+[-] Data Drift                          -> skipped (Data Drift requires a baseline and current model evaluation)
+[-] Custom Drift                        -> skipped (Custom Drift requires a baseline and current model evaluation)
+[-] Statistical Parity Difference       -> skipped (Requires protected group and outcome columns.)
+[-] Disparate Impact                    -> skipped (Requires protected group and outcome columns.)
+[-] Equal Opportunity Difference        -> skipped (Requires protected group and outcome columns.)
+[-] Average Odds Difference             -> skipped (Requires protected group and outcome columns.)
+[-] Reasoning Correctness               -> skipped (Missing explicit step-by-step reasoning columns (llm_steps, gold_steps).)
+[-] Stepwise Integrity                  -> skipped (Missing explicit step-by-step reasoning columns (llm_steps, gold_steps).)
+[-] Traceability/Explainability         -> skipped (Missing explicit step-by-step reasoning columns (llm_steps, gold_steps).)
+[-] Transparency Score                  -> skipped (Requires externally supplied factor configuration.)
+[-] Bias Mitigation                     -> skipped (requires protected-attribute labels and historical outcome data, not present in this batch)
+[-] Bias Index                          -> skipped (requires protected-attribute labels, outcome data, and vector embeddings, not present in this batch)
+[-] Privacy Integrity                   -> skipped (requires differential-privacy configuration and attack simulation logs, not present in this batch)
+[-] Provenance Completeness             -> skipped (requires structured citation array and source corpus entailment indicators, not present in this batch)
+[-] Auditability Level                  -> skipped (requires structured audit log with hash-chain data, not present in this batch)
+[-] Compliance Adaptability             -> skipped (requires system policy latency configuration and unlearning efficiency data, not present in this batch)
+[-] Model Drift                         -> skipped (this is the baseline run for the current model/version)
+
+--- SUMMARY ---
+Calculated:    21
+Not Available: 18
+Errors:        0
+Total Metrics: 39
+======================================================

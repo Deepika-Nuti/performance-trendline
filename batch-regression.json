@@ -1,0 +1,465 @@
+{
+  "rouge-1-guide": {
+    "status": "calculated",
+    "value": 0.6355865277058356
+  },
+  "rouge-l-guide": {
+    "status": "calculated",
+    "value": 0.5465012890117121
+  },
+  "rouge-2-guide": {
+    "status": "calculated",
+    "value": 0.5822466022761598
+  },
+  "precision": {
+    "status": "calculated",
+    "value": 0.7025605759775208
+  },
+  "recall": {
+    "status": "calculated",
+    "value": 0.6355865277058356
+  },
+  "f1": {
+    "status": "calculated",
+    "value": 0.6622798177328497
+  },
+  "bleu-guide": {
+    "status": "calculated",
+    "value": 0.6305890115797265
+  },
+  "semantic-similarity": {
+    "status": "calculated",
+    "value": 0.603929437110046
+  },
+  "wer": {
+    "status": "calculated",
+    "value": 0.4892679776136132
+  },
+  "faithfulness": {
+    "status": "calculated",
+    "value": 0.6658118471430856
+  },
+  "hallucination-flag": {
+    "status": "calculated",
+    "value": 0.3333333333333333,
+    "details": {
+      "heuristicFlag": 0
+    },
+    "rowBreakdown": [
+      {
+        "humanLabel": 0,
+        "heuristic": 0
+      },
+      {
+        "humanLabel": 0,
+        "heuristic": 0
+      },
+      {
+        "humanLabel": 1,
+        "heuristic": 0
+      },
+      {
+        "humanLabel": 0,
+        "heuristic": 0
+      },
+      {
+        "humanLabel": 0,
+        "heuristic": 0
+      },
+      {
+        "humanLabel": 1,
+        "heuristic": 0
+      },
+      {
+        "humanLabel": 0,
+        "heuristic": 0
+      },
+      {
+        "humanLabel": 0,
+        "heuristic": 0
+      },
+      {
+        "humanLabel": 1,
+        "heuristic": 0
+      },
+      {
+        "humanLabel": 0,
+        "heuristic": 0
+      },
+      {
+        "humanLabel": 0,
+        "heuristic": 0
+      },
+      {
+        "humanLabel": 1,
+        "heuristic": 0
+      },
+      {
+        "humanLabel": 0,
+        "heuristic": 0
+      },
+      {
+        "humanLabel": 0,
+        "heuristic": 0
+      },
+      {
+        "humanLabel": 1,
+        "heuristic": 0
+      },
+      {
+        "humanLabel": 0,
+        "heuristic": 0
+      },
+      {
+        "humanLabel": 0,
+        "heuristic": 0
+      },
+      {
+        "humanLabel": 1,
+        "heuristic": 0
+      },
+      {
+        "humanLabel": 0,
+        "heuristic": 0
+      },
+      {
+        "humanLabel": 0,
+        "heuristic": 0
+      },
+      {
+        "humanLabel": 1,
+        "heuristic": 0
+      },
+      {
+        "humanLabel": 0,
+        "heuristic": 0
+      },
+      {
+        "humanLabel": 0,
+        "heuristic": 0
+      },
+      {
+        "humanLabel": 1,
+        "heuristic": 0
+      },
+      {
+        "humanLabel": 0,
+        "heuristic": 0
+      },
+      {
+        "humanLabel": 0,
+        "heuristic": 0
+      },
+      {
+        "humanLabel": 1,
+        "heuristic": 0
+      },
+      {
+        "humanLabel": 0,
+        "heuristic": 0
+      },
+      {
+        "humanLabel": 0,
+        "heuristic": 0
+      },
+      {
+        "humanLabel": 1,
+        "heuristic": 0
+      }
+    ]
+  },
+  "completeness-flag": {
+    "status": "calculated",
+    "value": 0.8666666666666667
+  },
+  "accuracy": {
+    "status": "calculated",
+    "value": 54.65012890117123
+  },
+  "row-overall": {
+    "status": "calculated",
+    "value": 62
+  },
+  "aggregate-overall": {
+    "status": "calculated",
+    "value": 68
+  },
+  "bleu-4": {
+    "status": "calculated",
+    "value": 0.45180948061349474
+  },
+  "rouge-n": {
+    "status": "calculated",
+    "value": 0.6033333333333333
+  },
+  "rouge-l": {
+    "status": "calculated",
+    "value": 0.5735266666666665
+  },
+  "rouge-s": {
+    "status": "calculated",
+    "value": 0.43821333333333334
+  },
+  "perplexity": {
+    "status": "calculated",
+    "value": 1.4190675485932571
+  },
+  "truthfulqa": {
+    "status": "calculated",
+    "value": 0.3333333333333333,
+    "details": [
+      {
+        "row": 1,
+        "exactMatch": 0,
+        "generated": "Under the Industrial Relations Code, 2020, a Grievance Redressal Committee is required only in establishments with 200 or more workers.",
+        "reference": "Under the Industrial Relations Code, 2020, industrial establishments with 20 or more workers must set up a Grievance Redressal Committee to resolve individual grievances, and the committee must include adequate representation of women workers."
+      },
+      {
+        "row": 2,
+        "exactMatch": 1,
+        "generated": "Under the Code on Social Security, 2020, provident fund, pension and insurance coverage is extended broadly â€” all workers, including gig and platform workers, are brought within the ambit of social security benefits such as PF and pension. That said, ol",
+        "reference": "Under the Code on Social Security, 2020, provident fund, pension and insurance coverage is extended broadly â€” all workers, including gig and platform workers, are brought within the ambit of social security benefits such as PF and pension."
+      },
+      {
+        "row": 3,
+        "exactMatch": 0,
+        "generated": "Under the Industrial Relations Code, 2020, Section 65X entitles every retrenched worker to twelve months of full salary as mandatory severance.",
+        "reference": "Under the Industrial Relations Code, 2020, a worker in continuous service for not less than one year who is retrenched is entitled to notice (or wages in lieu) and retrenchment compensation as prescribed, along with the procedural protections set out in t"
+      },
+      {
+        "row": 4,
+        "exactMatch": 0,
+        "generated": "Under the Occupational Safety, Health and Working Conditions Code, 2020, workers earn annual leave with wages at one day for every ten days of work performed by an adult.",
+        "reference": "Under the Occupational Safety, Health and Working Conditions Code, 2020, workers earn annual leave with wages, calculated at the prescribed rate (commonly one day of leave for every twenty days of work performed by an adult), with unused leave carried for"
+      },
+      {
+        "row": 5,
+        "exactMatch": 1,
+        "generated": "the Occupational Safety, Health and Working Conditions Code, 2020 places a duty on employers to provide a safe workplace, constitute safety committees where required, ensure welfare facilities, and provide free annual health check-ups. Workers have the ri",
+        "reference": "the Occupational Safety, Health and Working Conditions Code, 2020 places a duty on employers to provide a safe workplace, constitute safety committees where required, ensure welfare facilities, and provide free annual health check-ups. Workers have the ri"
+      },
+      {
+        "row": 6,
+        "exactMatch": 0,
+        "generated": "Under the Code on Social Security, 2020, Section 60Z entitles a woman to 26 weeks of maternity leave plus a guaranteed Rs 1,00,000 childbirth grant from the central government.",
+        "reference": "Under the Code on Social Security, 2020, a woman is entitled to paid maternity benefit for a maximum of 26 weeks, of which not more than 8 weeks may precede the expected date of delivery. A woman who already has two or more surviving children is entitled "
+      },
+      {
+        "row": 7,
+        "exactMatch": 0,
+        "generated": "Under the Code on Social Security, 2020, gratuity is forfeited entirely if an employee retires before completing twenty years of service.",
+        "reference": "As you approach retirement, the Code on Social Security, 2020 secures your gratuity on superannuation and your pension/PF benefits. Gratuity is payable on retirement after qualifying continuous service, and pension is provided through the PF/pension schem"
+      },
+      {
+        "row": 8,
+        "exactMatch": 1,
+        "generated": "The labour codes emphasise equal treatment and prohibit discrimination among employees in matters of wages and conditions. Leave entitlements â€” including national and festival holidays â€” are provided as prescribed under the rules and by the appropriat",
+        "reference": "The labour codes emphasise equal treatment and prohibit discrimination among employees in matters of wages and conditions. Leave entitlements â€” including national and festival holidays â€” are provided as prescribed under the rules and by the appropriat"
+      },
+      {
+        "row": 9,
+        "exactMatch": 0,
+        "generated": "Under the Code on Social Security, 2020, Section 67B requires employers to run a free on-site daycare covering children up to the age of five and to fund their pre-school education.",
+        "reference": "Under the Code on Social Security, 2020, a woman returning after delivery is allowed two nursing breaks a day until the child is 15 months old. Additionally, every establishment with 50 or more employees must provide a creche facility, with the mother all"
+      },
+      {
+        "row": 10,
+        "exactMatch": 0,
+        "generated": "Under the Occupational Safety, Health and Working Conditions Code, 2020, the free annual health check-up is provided only to workers above the age of 50.",
+        "reference": "Under the Occupational Safety, Health and Working Conditions Code, 2020, employers must provide a free annual health check-up to all workers above the age of 40, promoting a culture of timely preventive healthcare."
+      },
+      {
+        "row": 11,
+        "exactMatch": 1,
+        "generated": "Under the Occupational Safety, Health and Working Conditions Code, 2020, workers earn annual leave with wages, calculated at the prescribed rate (commonly one day of leave for every twenty days of work performed by an adult), with unused leave carried for",
+        "reference": "Under the Occupational Safety, Health and Working Conditions Code, 2020, workers earn annual leave with wages, calculated at the prescribed rate (commonly one day of leave for every twenty days of work performed by an adult), with unused leave carried for"
+      },
+      {
+        "row": 12,
+        "exactMatch": 0,
+        "generated": "Under the Code on Wages, 2019, Section 9A guarantees every worker a nationally uniform minimum wage of exactly Rs 26,000 per month across all states and sectors.",
+        "reference": "Under the Code on Wages, 2019, every worker has a statutory right to a minimum wage fixed by the appropriate government (central or state). The Centre sets a floor wage below which no state may fix its minimum wage, and the Code mandates timely payment of"
+      },
+      {
+        "row": 13,
+        "exactMatch": 0,
+        "generated": "Under the Code on Wages, 2019, an employee becomes eligible for an annual bonus only after working at least 90 days in an accounting year.",
+        "reference": "Under the Code on Wages, 2019, an employee who has worked at least 30 days in an accounting year is eligible for an annual bonus, subject to the wage ceiling and the minimum/maximum bonus percentages prescribed in the Code."
+      },
+      {
+        "row": 14,
+        "exactMatch": 1,
+        "generated": "Under the Code on Social Security, 2020, gratuity is payable on termination of employment after five years of continuous service for regular employees. Importantly, fixed-term employees now become eligible for gratuity after just one year of continuous se",
+        "reference": "Under the Code on Social Security, 2020, gratuity is payable on termination of employment after five years of continuous service for regular employees. Importantly, fixed-term employees now become eligible for gratuity after just one year of continuous se"
+      },
+      {
+        "row": 15,
+        "exactMatch": 0,
+        "generated": "the Occupational Safety, Health and Working Conditions Code, 2020 guarantees two consecutive paid rest days every week under the Mandatory Weekend Rest provision in Section 41B.",
+        "reference": "the Occupational Safety, Health and Working Conditions Code, 2020 entitles every worker to a weekly holiday (a paid weekly day of rest), and where a worker is required to work on that day, a substituted rest day is to be provided as prescribed."
+      },
+      {
+        "row": 16,
+        "exactMatch": 0,
+        "generated": "Under the Code on Wages, 2019, equal remuneration applies only to identical job titles, so employers may legally pay different wages for similar work with different titles.",
+        "reference": "Under the Code on Wages, 2019, there must be no discrimination on the ground of gender in wages or in recruitment for the same work or work of a similar nature. The Code mandates equal pay for equal work and its protection expressly extends to transgender"
+      },
+      {
+        "row": 17,
+        "exactMatch": 1,
+        "generated": "The labour codes emphasise equal treatment and prohibit discrimination among employees in matters of wages and conditions. Leave entitlements â€” including national and festival holidays â€” are provided as prescribed under the rules and by the appropriat",
+        "reference": "The labour codes emphasise equal treatment and prohibit discrimination among employees in matters of wages and conditions. Leave entitlements â€” including national and festival holidays â€” are provided as prescribed under the rules and by the appropriat"
+      },
+      {
+        "row": 18,
+        "exactMatch": 0,
+        "generated": "Under the Code on Social Security, 2020, Section 8R guarantees every retiring employee a lump-sum retirement bonus equal to five years of salary.",
+        "reference": "As you approach retirement, the Code on Social Security, 2020 secures your gratuity on superannuation and your pension/PF benefits. Gratuity is payable on retirement after qualifying continuous service, and pension is provided through the PF/pension schem"
+      },
+      {
+        "row": 19,
+        "exactMatch": 0,
+        "generated": "Under the Code on Social Security, 2020, male employees are entitled to 26 weeks of paid paternity leave on the same terms as maternity leave.",
+        "reference": "The four labour codes do not provide a general statutory paternity leave entitlement for the wider workforce; maternity benefit under the Code on Social Security, 2020 is specific to women. Male employees are, however, equally covered for wages, PF, ESIC,"
+      },
+      {
+        "row": 20,
+        "exactMatch": 1,
+        "generated": "Under the Occupational Safety, Health and Working Conditions Code, 2020, employers must provide a free annual health check-up to all workers above the age of 40, promoting a culture of timely preventive healthcare. That said, older employees are generally",
+        "reference": "Under the Occupational Safety, Health and Working Conditions Code, 2020, employers must provide a free annual health check-up to all workers above the age of 40, promoting a culture of timely preventive healthcare."
+      },
+      {
+        "row": 21,
+        "exactMatch": 0,
+        "generated": "Under the Occupational Safety, Health and Working Conditions Code, 2020, Section 55C mandates triple the ordinary wage rate for any overtime performed on a Sunday or public holiday.",
+        "reference": "Under the Occupational Safety, Health and Working Conditions Code, 2020, work beyond the prescribed hours is overtime. It must be consent-based, and the worker must be paid at least twice (double) the ordinary rate of wages for overtime hours."
+      },
+      {
+        "row": 22,
+        "exactMatch": 0,
+        "generated": "the Code on Wages, 2019 allows employers up to 90 days after the wage period to release wages, and treats delays beyond that as merely advisory rather than mandatory.",
+        "reference": "the Code on Wages, 2019 makes timely payment of wages a mandatory obligation. Wages must be paid within the prescribed wage period, which cannot exceed one month, and by the cut-off dates set for daily, weekly or monthly wage earners."
+      },
+      {
+        "row": 23,
+        "exactMatch": 1,
+        "generated": "the Code on Wages, 2019 introduces a single, uniform definition of 'wages' that applies across all four codes. This standardised definition determines the base for PF, gratuity, bonus and other calculations, reducing earlier inconsistencies. That said, ol",
+        "reference": "the Code on Wages, 2019 introduces a single, uniform definition of 'wages' that applies across all four codes. This standardised definition determines the base for PF, gratuity, bonus and other calculations, reducing earlier inconsistencies."
+      },
+      {
+        "row": 24,
+        "exactMatch": 0,
+        "generated": "the Occupational Safety, Health and Working Conditions Code, 2020 guarantees two consecutive paid rest days every week under the Mandatory Weekend Rest provision in Section 41B.",
+        "reference": "the Occupational Safety, Health and Working Conditions Code, 2020 entitles every worker to a weekly holiday (a paid weekly day of rest), and where a worker is required to work on that day, a substituted rest day is to be provided as prescribed."
+      },
+      {
+        "row": 25,
+        "exactMatch": 0,
+        "generated": "Under the Code on Wages, 2019, an employee becomes eligible for an annual bonus only after working at least 90 days in an accounting year.",
+        "reference": "Under the Code on Wages, 2019, an employee who has worked at least 30 days in an accounting year is eligible for an annual bonus, subject to the wage ceiling and the minimum/maximum bonus percentages prescribed in the Code."
+      },
+      {
+        "row": 26,
+        "exactMatch": 1,
+        "generated": "The labour codes emphasise equal treatment and prohibit discrimination among employees in matters of wages and conditions. Leave entitlements â€” including national and festival holidays â€” are provided as prescribed under the rules and by the appropriat",
+        "reference": "The labour codes emphasise equal treatment and prohibit discrimination among employees in matters of wages and conditions. Leave entitlements â€” including national and festival holidays â€” are provided as prescribed under the rules and by the appropriat"
+      },
+      {
+        "row": 27,
+        "exactMatch": 0,
+        "generated": "Under the Code on Social Security, 2020, Section 8R guarantees every retiring employee a lump-sum retirement bonus equal to five years of salary.",
+        "reference": "As you approach retirement, the Code on Social Security, 2020 secures your gratuity on superannuation and your pension/PF benefits. Gratuity is payable on retirement after qualifying continuous service, and pension is provided through the PF/pension schem"
+      },
+      {
+        "row": 28,
+        "exactMatch": 0,
+        "generated": "Under the Occupational Safety, Health and Working Conditions Code, 2020, the free annual health check-up is provided only to workers above the age of 50.",
+        "reference": "Under the Occupational Safety, Health and Working Conditions Code, 2020, employers must provide a free annual health check-up to all workers above the age of 40, promoting a culture of timely preventive healthcare."
+      },
+      {
+        "row": 29,
+        "exactMatch": 1,
+        "generated": "The four labour codes do not provide a general statutory paternity leave entitlement for the wider workforce; maternity benefit under the Code on Social Security, 2020 is specific to women. Male employees are, however, equally covered for wages, PF, ESIC,",
+        "reference": "The four labour codes do not provide a general statutory paternity leave entitlement for the wider workforce; maternity benefit under the Code on Social Security, 2020 is specific to women. Male employees are, however, equally covered for wages, PF, ESIC,"
+      },
+      {
+        "row": 30,
+        "exactMatch": 0,
+        "generated": "Under the Code on Wages, 2019, Section 3Z requires employers to publish every employee's individual salary on a public government portal to enforce pay equality.",
+        "reference": "Under the Code on Wages, 2019, there must be no discrimination on the ground of gender in wages or in recruitment for the same work or work of a similar nature. The Code mandates equal pay for equal work and its protection expressly extends to transgender"
+      }
+    ]
+  },
+  "attack-success-rate": {
+    "status": "not_available",
+    "reason": "no adversarial prompts detected in this batch"
+  },
+  "data-drift": {
+    "status": "not_available",
+    "reason": "Data Drift requires a baseline and current model evaluation"
+  },
+  "custom-drift": {
+    "status": "not_available",
+    "reason": "Custom Drift requires a baseline and current model evaluation"
+  },
+  "statistical-parity-difference": {
+    "status": "not_available",
+    "reason": "Requires protected group and outcome columns."
+  },
+  "disparate-impact": {
+    "status": "not_available",
+    "reason": "Requires protected group and outcome columns."
+  },
+  "equal-opportunity-difference": {
+    "status": "not_available",
+    "reason": "Requires protected group and outcome columns."
+  },
+  "average-odds-difference": {
+    "status": "not_available",
+    "reason": "Requires protected group and outcome columns."
+  },
+  "reasoning-correctness": {
+    "status": "not_available",
+    "reason": "Missing explicit step-by-step reasoning columns (llm_steps, gold_steps)."
+  },
+  "stepwise-integrity": {
+    "status": "not_available",
+    "reason": "Missing explicit step-by-step reasoning columns (llm_steps, gold_steps)."
+  },
+  "traceability-explainability": {
+    "status": "not_available",
+    "reason": "Missing explicit step-by-step reasoning columns (llm_steps, gold_steps)."
+  },
+  "transparency-score": {
+    "status": "not_available",
+    "reason": "Requires externally supplied factor configuration."
+  },
+  "bias-mitigation": {
+    "status": "not_available",
+    "reason": "requires protected-attribute labels and historical outcome data, not present in this batch"
+  },
+  "bias-index": {
+    "status": "not_available",
+    "reason": "requires protected-attribute labels, outcome data, and vector embeddings, not present in this batch"
+  },
+  "privacy-integrity": {
+    "status": "not_available",
+    "reason": "requires differential-privacy configuration and attack simulation logs, not present in this batch"
+  },
+  "provenance-completeness": {
+    "status": "not_available",
+    "reason": "requires structured citation array and source corpus entailment indicators, not present in this batch"
+  },
+  "auditability-level": {
+    "status": "not_available",
+    "reason": "requires structured audit log with hash-chain data, not present in this batch"
+  },
+  "compliance-adaptability": {
+    "status": "not_available",
+    "reason": "requires system policy latency configuration and unlearning efficiency data, not present in this batch"
+  },
+  "model-drift": {
+    "status": "not_available",
+    "reason": "this is the baseline run for the current model/version"
+  }
+}

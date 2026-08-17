@@ -1,0 +1,60 @@
+import { describe, it, expect, vi } from 'vitest';
+import React from 'react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import '@testing-library/react'; // ensure loaded
+import 'fake-indexeddb/auto';
+import { MonitoringDashboard } from '../../src/components/dashboard/MonitoringDashboard';
+import { saveRun, getRuns } from '../../src/services/storage/evaluationStorage';
+import { EvaluationRun } from '../../src/types/evaluation';
+
+describe('Clear Runs UI', () => {
+  it('should clear runs and update UI gracefully', async () => {
+    // 1. Seed the db
+    const mockRun: EvaluationRun = {
+      runId: 'run_123',
+      timestamp: new Date().toISOString(),
+      modelName: 'test',
+      modelVersion: '1.0',
+      datasetName: 'test.csv',
+      sampleCount: 1,
+      availableCanonicalFields: [],
+      metricResults: {
+        'accuracy': { status: 'calculated', value: 90 }
+      },
+      metadata: { uploadedFileName: 'test.csv', normalizationMapUsed: {} }
+    };
+    await saveRun(mockRun);
+    
+    expect((await getRuns()).length).toBe(1);
+
+    // Mock window.confirm
+    const confirmSpy = vi.spyOn(window, 'confirm').mockImplementation(() => true);
+
+    // 2. Render
+    render(<MonitoringDashboard />);
+
+    // Wait for the Dashboard to load the run
+    await waitFor(() => {
+      expect(screen.getByText('Clear Runs')).toBeDefined();
+    });
+
+    // 3. Click Clear
+    const clearBtn = screen.getByText('Clear Runs');
+    fireEvent.click(clearBtn);
+
+    expect(confirmSpy).toHaveBeenCalled();
+
+    // 4. Verify DB is empty
+    await waitFor(async () => {
+      const runs = await getRuns();
+      expect(runs.length).toBe(0);
+    });
+
+    // 5. Verify UI gracefully shows empty state instead of erroring
+    await waitFor(() => {
+      expect(screen.getByText('No Evaluation Runs Found')).toBeDefined();
+    });
+
+    confirmSpy.mockRestore();
+  });
+});

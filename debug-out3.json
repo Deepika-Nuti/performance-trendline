@@ -1,0 +1,1 @@
+{"namespaceKeys":["default"],"hasDefault":true,"defaultKeys":["tokenize","getNGrams","countMatches","calculateBLEU"],"calculateBLEU_from_default":"function","calculateBLEU_from_namespace":"undefined"}
