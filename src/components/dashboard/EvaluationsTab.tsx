@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { EvaluationHistory } from './EvaluationHistory';
-import { getAllRuns } from '../../services/storage/evaluationStorage';
+import { getRuns } from '../../services/storage/evaluationStorage';
 import { EvaluationRun } from '../../types/evaluation';
 import { Activity } from 'lucide-react';
 
@@ -15,7 +15,7 @@ export const EvaluationsTab: React.FC = () => {
   const loadData = async () => {
     setLoading(true);
     try {
-      const allRuns = await getAllRuns();
+      const allRuns = await getRuns();
       setRuns(allRuns);
     } catch (e) {
       console.error(e);
