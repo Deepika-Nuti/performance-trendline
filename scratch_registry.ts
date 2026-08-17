@@ -87,8 +87,33 @@ export const registry: any[] = [
   },
   { id: 'custom-drift', name: 'Custom Drift', description: 'Measures drift using a user-defined statistical method.', category: 'Drift', implementation: evaluateCustomDrift, inputBuilder: (rows: any, ctx: any) => buildCustomDriftInputs(ctx), type: 'distribution', higherIsBetter: false
   },
-  { governancePriority: true, governanceCategory: 'Statistical Fairness', id: 'statistical-parity-difference', name: 'Statistical Parity Difference', description: 'Measures the gap in selection rates between groups.', category: 'Fairness', implementation: (inputs: any) => { const value = calculateSPD(inputs.unprivSelected, inputs.unprivTotal, inputs.privSelected, inputs.privTotal); return { value, details: inputs.details }; }, inputBuilder: (rows: any, ctx: any) => buildFairnessInputs(rows, ctx), type: 'group/aggregate' },
-  { governancePriority: true, governanceCategory: 'Statistical Fairness', id: 'disparate-impact', name: 'Disparate Impact', description: 'Ratio of favorable-outcome rates between unprivileged and privileged groups.', category: 'Fairness', implementation: (inputs: any) => { const value = calculateDI(inputs.unprivSelected, inputs.unprivTotal, inputs.privSelected, inputs.privTotal); return { value, details: inputs.details }; }, inputBuilder: (rows: any, ctx: any) => buildFairnessInputs(rows, ctx), type: 'group/aggregate', higherIsBetter: true },
+  ...['Gender', 'Disability', 'Religion/Belief', 'Sexual Orientation', 'Age Group'].flatMap(col => [
+    {
+      id: `statistical-parity-difference-${col.toLowerCase().replace(/[^a-z0-9]/g, '-')}`,
+      name: `Statistical Parity Difference (${col})`,
+      description: `Measures the gap in selection rates between groups for ${col}.`,
+      category: 'Fairness',
+      implementation: (inputs: any) => {
+        const value = calculateSPD(inputs.unprivSelected, inputs.unprivTotal, inputs.privSelected, inputs.privTotal);
+        return { value, details: inputs.details };
+      },
+      inputBuilder: (rows: any, ctx: any) => buildFairnessInputs(rows, ctx, col),
+      type: 'group/aggregate'
+    },
+    {
+      id: `disparate-impact-${col.toLowerCase().replace(/[^a-z0-9]/g, '-')}`,
+      name: `Disparate Impact (${col})`,
+      description: `Ratio of favorable-outcome rates between unprivileged and privileged groups for ${col}.`,
+      category: 'Fairness',
+      implementation: (inputs: any) => {
+        const value = calculateDI(inputs.unprivSelected, inputs.unprivTotal, inputs.privSelected, inputs.privTotal);
+        return { value, details: inputs.details };
+      },
+      inputBuilder: (rows: any, ctx: any) => buildFairnessInputs(rows, ctx, col),
+      type: 'group/aggregate',
+      higherIsBetter: true
+    }
+  ]),
   { governancePriority: true, governanceCategory: 'Statistical Fairness', id: 'equal-opportunity-difference', name: 'Equal Opportunity Difference', description: 'Compares the true positive rate across unprivileged and privileged groups.', category: 'Fairness', implementation: calculateEOD, inputBuilder: buildUnavailableInput('requires ground truth labels to compute true positive rates, not present in this batch'), type: 'configuration'
   },
   { governancePriority: true, governanceCategory: 'Statistical Fairness', id: 'average-odds-difference', name: 'Average Odds Difference', description: 'Group fairness metric comparing TPR and FPR between unprivileged and privileged groups.', category: 'Fairness', implementation: calculateAOD, inputBuilder: buildUnavailableInput('requires ground truth labels to compute true positive/false positive rates, not present in this batch'), type: 'configuration'

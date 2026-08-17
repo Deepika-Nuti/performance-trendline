@@ -112,7 +112,7 @@ describe('Evaluation Engine (v2)', () => {
     for (const metricId of notAvailableMetrics) {
       const result = runResult.metricResults[metricId];
       expect(result).toBeDefined();
-      expect(result.status).toBe('not_available');
+      if (result.status !== 'not_available') console.log('FAILED METRIC:', metricId, result.reason); expect(result.status).toBe('not_available');
       expect(result.reason).toBeDefined();
     }
   });

@@ -127,6 +127,10 @@ export function evaluateMetric(metricDefinition: any, evaluationContext: any) {
           result.status = 'calculated';
           result.value = val.score;
           result.details = { classification: val.classification, ...val.details };
+        } else if (val.status === 'not_available') {
+          result.status = 'not_available';
+          result.reason = val.reason;
+          if (val.details) result.details = val.details;
         } else {
           result.status = 'error';
           result.reason = 'Metric returned non-numeric result.';
