@@ -49,11 +49,11 @@ const guideRegistry = [
 
 export const registry: any[] = [
   ...guideRegistry, // 15
-  { id: 'bleu-4', name: 'BLEU-4', description: 'Measures how much of the model\'s output word-for-word matches a reference.', category: 'Generation Quality', implementation: calculateBLEU, inputBuilder: buildRowLevelTextInputs, type: 'row-level', higherIsBetter: true
+  { id: 'bleu-score', name: 'BLEU Score', description: 'Mean of BLEU (Guide) and BLEU-4.', category: 'Technical Performance & Fluency', governancePriority: true, governanceCategory: 'Technical Performance & Fluency', implementation: (c: any, r: any) => { const b1 = bleu(c, r) || 0; const b4res = calculateBLEU(c, r); const b4 = b4res?.f1 || 0; return (b1 + b4) / 2.0; }, inputBuilder: buildGuideMetricInputs, type: 'row-level', higherIsBetter: true
   },
   { id: 'rouge-n', name: 'ROUGE-N', description: 'n-gram overlap recall/precision/F1.', category: 'Generation Quality', implementation: rougeN, inputBuilder: buildRowLevelTextInputs, type: 'row-level', higherIsBetter: true
   },
-  { id: 'rouge-l', name: 'ROUGE-L', description: 'Longest Common Subsequence recall/precision/F1.', category: 'Generation Quality', implementation: rougeL, inputBuilder: buildRowLevelTextInputs, type: 'row-level', higherIsBetter: true
+  { id: 'rouge-score', name: 'ROUGE Score', description: 'Mean of ROUGE-1, ROUGE-L, and ROUGE-2.', category: 'Technical Performance & Fluency', governancePriority: true, governanceCategory: 'Technical Performance & Fluency', implementation: (c: any, r: any) => { const r1 = rouge1(c, r) || 0; const rl = rougeL_guide(c, r) || 0; const r2 = rouge2(c, r) || 0; return (r1 + rl + r2) / 3.0; }, inputBuilder: buildGuideMetricInputs, type: 'row-level', higherIsBetter: true
   },
   { id: 'rouge-s', name: 'ROUGE-S', description: 'Skip-bigram co-occurrence recall/precision/F1.', category: 'Generation Quality', implementation: rougeS, inputBuilder: buildRowLevelTextInputs, type: 'row-level', higherIsBetter: true
   },

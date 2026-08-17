@@ -121,7 +121,7 @@ export const MonitoringDashboard: React.FC<DashboardProps> = ({ modelName, model
               {uploading ? 'Processing...' : 'Upload Batch Results'}
               <input 
                 type="file" 
-                accept=".csv,.xlsx" 
+                accept=".csv,.xlsx,.json" 
                 style={{ display: 'none' }} 
                 onChange={handleFileUpload}
                 disabled={uploading}

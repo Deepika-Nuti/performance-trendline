@@ -16,6 +16,7 @@ export async function processBatchUpload(
   datasetName: string
 ): Promise<BatchUploadResult> {
   const isXlsx = file.name.endsWith('.xlsx') || file.name.endsWith('.xls');
+  const isJson = file.name.endsWith('.json');
 
   return new Promise(async (resolve, reject) => {
     try {
@@ -27,6 +28,22 @@ export async function processBatchUpload(
         const sheetName = workbook.SheetNames[0];
         rawRows = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
         await processRows(rawRows);
+      } else if (isJson) {
+        const reader = new FileReader();
+        reader.onload = async (e) => {
+          try {
+            const json = JSON.parse(e.target?.result as string);
+            if (Array.isArray(json)) {
+              await processRows(json);
+            } else {
+              await processRows([json]);
+            }
+          } catch (error) {
+            reject(error);
+          }
+        };
+        reader.onerror = (e) => reject(e);
+        reader.readAsText(file);
       } else {
         Papa.parse(file, {
           header: true,

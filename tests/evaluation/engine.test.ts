@@ -39,7 +39,7 @@ describe('Evaluation Engine (v2)', () => {
     const runResult = await runEvaluation('test-dataset', batch, 'Llama-3-8B-Instruct', 'v1.2.0');
     
     // Normalization should have worked automatically
-    expect(runResult.metricResults['bleu-4']?.status).toBe('calculated');
+    expect(runResult.metricResults['bleu-score']?.status).toBe('calculated');
     expect(runResult.metricResults['truthfulqa']?.status).toBe('calculated');
   });
 
@@ -49,14 +49,18 @@ describe('Evaluation Engine (v2)', () => {
     ];
 
     // Compute direct expected values from unmocked source
-    const expectedBleu = calculateBLEU(batch[0].generated_text, batch[0].reference_text);
+    const candidate = batch[0].generated_text;
+    const reference = batch[0].reference_text;
+    const b1 = bleu(candidate, reference) || 0;
+    const b4res = calculateBLEU(candidate, reference);
+    const expectedBleu = (b1 + (b4res?.f1 || 0)) / 2.0;
     const expectedRouge1 = rouge1(batch[0].generated_text, batch[0].reference_text);
 
     const runResult = await runEvaluation('equality-dataset', batch, 'Llama-3-8B-Instruct', 'v1.2.0');
     
     // Assert full pipeline matches direct unmocked call exactly
-    expect(runResult.metricResults['bleu-4']?.status).toBe('calculated');
-    expect(runResult.metricResults['bleu-4']?.value).toBeCloseTo(expectedBleu);
+    expect(runResult.metricResults['bleu-score']?.status).toBe('calculated');
+    expect(runResult.metricResults['bleu-score']?.value).toBeCloseTo(expectedBleu);
 
     expect(runResult.metricResults['rouge-1-guide']?.status).toBe('calculated');
     expect(runResult.metricResults['rouge-1-guide']?.value).toBeCloseTo(expectedRouge1);
@@ -87,7 +91,7 @@ describe('Evaluation Engine (v2)', () => {
     
     // Verify guide metrics & generation are calculated
     const calculatedMetrics = [
-      'bleu-4', 'rouge-n', 'rouge-l', 'rouge-s', 'perplexity', 'truthfulqa',
+      'bleu-score', 'rouge-n', 'rouge-score', 'rouge-s', 'perplexity', 'truthfulqa',
       'rouge-1-guide', 'rouge-l-guide', 'rouge-2-guide', 'precision', 'recall',
       'f1', 'bleu-guide', 'semantic-similarity', 'wer', 'faithfulness',
       'completeness-flag', 'accuracy', 'row-overall'
@@ -122,16 +126,16 @@ describe('Evaluation Engine (v2)', () => {
       { candidate: 'throw', reference: 'test' } 
     ];
     
-    const originalBleu = registry.find(m => m.id === 'bleu-4')?.implementation;
-    const bleuDef = registry.find(m => m.id === 'bleu-4');
+    const originalBleu = registry.find(m => m.id === 'bleu-score')?.implementation;
+    const bleuDef = registry.find(m => m.id === 'bleu-score');
     if (bleuDef) {
       bleuDef.implementation = () => { throw new Error('Simulated error'); };
     }
 
     const runResult = await runEvaluation('throw-dataset', batch, 'Llama-3-8B-Instruct', 'v1.2.0');
     
-    expect(runResult.metricResults['bleu-4']?.status).toBe('error');
-    expect(runResult.metricResults['rouge-l']?.status).not.toBe('error');
+    expect(runResult.metricResults['bleu-score']?.status).toBe('error');
+    expect(runResult.metricResults['rouge-score']?.status).not.toBe('error');
 
     if (bleuDef && originalBleu) {
       bleuDef.implementation = originalBleu;
@@ -198,8 +202,8 @@ describe('Evaluation Engine (v2)', () => {
     console.log(JSON.stringify({
        OverallStatus: statusRun2,
        MetricResultsSample: {
-         'bleu-4': run2.metricResults['bleu-4'],
-         'rouge-l': run2.metricResults['rouge-l']
+         'bleu-score': run2.metricResults['bleu-score'],
+         'rouge-score': run2.metricResults['rouge-score']
        }
     }, null, 2));
 
