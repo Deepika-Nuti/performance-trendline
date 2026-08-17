@@ -1,0 +1,3 @@
+normalizeFieldName('Type of issue'): null
+normalizeFieldName('is_adversarial'): null
+normalizeFieldName('protected_group'): null

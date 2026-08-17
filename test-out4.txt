@@ -1,0 +1,2 @@
+normalizeFieldName('candidate'): candidate
+normalizeFieldName('reference'): reference

@@ -1,0 +1,10 @@
+Upload 1 - AI Response: Paris is the capital of France.
+Accuracy: 66.66666666666666
+Completeness: 1
+Faithfulness: 1
+
+Upload 2 - AI Response: The capital of France is Paris.
+Accuracy: 100
+Completeness: 1
+Faithfulness: 1
+

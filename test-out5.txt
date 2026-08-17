@@ -1,0 +1,3 @@
+normalizeFieldName('AI response'): candidate
+normalizeFieldName('Answer'): candidate
+normalizeFieldName('expected answer'): reference

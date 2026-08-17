@@ -1,6 +1,6 @@
 import Papa from 'papaparse';
 import * as XLSX from 'xlsx';
-import { normalizeFieldName } from '../metrics/fieldNormalizer';
+import { normalizeFieldName, detectAmbiguities } from '../metrics/fieldNormalizer';
 
 export async function parseDataset(file: File): Promise<any[]> {
   const extension = file.name.split('.').pop()?.toLowerCase();
@@ -10,7 +10,13 @@ export async function parseDataset(file: File): Promise<any[]> {
       Papa.parse(file, {
         header: true,
         skipEmptyLines: true,
-        complete: (results) => resolve(normalizeRows(results.data as any[])),
+        complete: (results) => {
+          try {
+            resolve(normalizeRows(results.data as any[]));
+          } catch (e) {
+            reject(e);
+          }
+        },
         error: (error) => reject(error)
       });
     } else if (extension === 'xlsx') {
@@ -50,8 +56,19 @@ export async function parseDataset(file: File): Promise<any[]> {
 }
 
 function normalizeRows(rows: any[]): any[] {
+  if (rows.length === 0) return rows;
+  
+  // Check headers for ambiguities
+  const columns = Object.keys(rows[0]);
+  const ambiguities = detectAmbiguities(columns);
+  if (ambiguities.length > 0) {
+    const errorDetails = ambiguities.map(a => `'${a.field}': [${a.candidates.map(c => `'${c}'`).join(', ')}]`).join('; ');
+    throw new Error(`Upload failed: Ambiguous columns detected for ${errorDetails}. Please remove or rename one.`);
+  }
+
   return rows.map(row => {
-    const normalizedRow: any = {};
+    // Preserve all raw columns so governance/drift metrics have access to custom fields
+    const normalizedRow: any = { ...row };
     for (const [key, value] of Object.entries(row)) {
       const normalizedKey = normalizeFieldName(key);
       if (normalizedKey) {

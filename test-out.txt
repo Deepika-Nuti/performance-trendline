@@ -1,0 +1,20 @@
+normalizeFieldName AI response: candidate
+normalizeFieldName expected answer: reference
+Normalized row 0: {
+  "generated_text": "Hello AI",
+  "reference_text": "Hello expected",
+  "raw": {
+    "AI response": "Hello AI",
+    "expected answer": "Hello expected"
+  }
+}
+Guide Inputs: {
+  "status": "available",
+  "inputs": [
+    {
+      "h": "Hello AI",
+      "r": "Hello expected",
+      "humanHallucinationLabel": null
+    }
+  ]
+}
