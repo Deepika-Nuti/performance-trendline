@@ -3,7 +3,7 @@ import { EvaluationRun } from '../../types/evaluation';
 
 export type BuilderResult = 
   | { status: 'available'; inputs: any; validRows?: NormalizedRow[]; corpusText?: string }
-  | { status: 'not_available'; reason: string };
+  | { status: 'not_available'; reason: string; details?: any };
 
 
 const HALLUCINATION_LABEL_MAPPING: Record<string, boolean> = {

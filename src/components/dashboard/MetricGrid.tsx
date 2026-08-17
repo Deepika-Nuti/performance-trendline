@@ -132,7 +132,7 @@ export const MetricGrid: React.FC<Props> = ({ run, previousRun }) => {
               {category}
             </h3>
             <div className="metric-grid">
-              {metrics.map(renderMetric)}
+              {(metrics as any[]).map(renderMetric)}
             </div>
           </div>
         ))}
