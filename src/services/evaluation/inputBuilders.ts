@@ -164,7 +164,7 @@ export function buildModelDriftInputs(context: any): BuilderResult {
 export function buildDataDriftInputs(context: any): BuilderResult {
   const baselineRunRows = context.baselineRunRows;
   if (!baselineRunRows || baselineRunRows.length === 0) {
-    return { status: 'not_available', reason: 'baseline run raw rows not found' };
+    return { status: 'not_available', reason: 'this is the baseline run for the current model/version' };
   }
 
   const currentRunRows = context.rawRows;
@@ -216,7 +216,7 @@ export function buildDataDriftInputs(context: any): BuilderResult {
 export function buildCustomDriftInputs(context: any): BuilderResult {
   const baselineRunRows = context.baselineRunRows;
   if (!baselineRunRows || baselineRunRows.length === 0) {
-    return { status: 'not_available', reason: 'baseline run raw rows not found' };
+    return { status: 'not_available', reason: 'this is the baseline run for the current model/version' };
   }
 
   const currentRunRows = context.rawRows;
