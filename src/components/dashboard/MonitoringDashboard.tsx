@@ -36,8 +36,8 @@ export const MonitoringDashboard: React.FC<DashboardProps> = ({ modelName, model
     setAllRuns(runs);
 
     if (runs.length > 0) {
-      setLatestRun(runs[runs.length - 1]);
-      setPreviousRun(runs.length > 1 ? runs[runs.length - 2] : undefined);
+      setLatestRun(runs[0]);
+      setPreviousRun(runs.length > 1 ? runs[1] : undefined);
     }
     setLoading(false);
   };

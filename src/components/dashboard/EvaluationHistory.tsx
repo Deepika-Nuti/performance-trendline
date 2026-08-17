@@ -5,9 +5,10 @@ import { getOverallStatus } from '../../services/evaluation/TrendAnalysis';
 
 interface Props {
   runs: EvaluationRun[];
+  onRowClick?: (runId: string) => void;
 }
 
-export const EvaluationHistory: React.FC<Props> = ({ runs }) => {
+export const EvaluationHistory: React.FC<Props> = ({ runs, onRowClick }) => {
   // Sort runs descending by time for history view
   const sortedRuns = [...runs].sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
 
@@ -42,7 +43,17 @@ export const EvaluationHistory: React.FC<Props> = ({ runs }) => {
             if (status === 'Stable') statusBadgeClass = 'status-stable';
 
             return (
-              <tr key={run.runId} style={{ borderBottom: '1px solid rgba(255,255,255,0.02)' }}>
+              <tr 
+                key={run.runId} 
+                onClick={() => onRowClick && onRowClick(run.runId)}
+                style={{ 
+                  borderBottom: '1px solid rgba(255,255,255,0.02)',
+                  cursor: onRowClick ? 'pointer' : 'default',
+                  transition: 'background 0.2s',
+                }}
+                onMouseEnter={(e) => { if (onRowClick) e.currentTarget.style.background = 'rgba(255,255,255,0.02)' }}
+                onMouseLeave={(e) => { if (onRowClick) e.currentTarget.style.background = 'transparent' }}
+              >
                 <td style={{ padding: '16px 24px', color: 'var(--accent-cyan)', fontWeight: 500 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <Tag size={16} /> {run.runId}
