@@ -9,7 +9,7 @@ describe('Metrics Completeness Regression', () => {
     await clearRuns();
   });
 
-  it('should include all 39 metrics in the evaluation results on every run', async () => {
+  it('should include all 47 metrics in the evaluation results on every run', async () => {
     const dummyRows = [
       { id: 1, prompt: 'hello', generated_text: 'hi', expected_text: 'hello', 'Type of issue': 'None' }
     ];
@@ -21,8 +21,8 @@ describe('Metrics Completeness Regression', () => {
     const run1Keys = Object.keys(run1.metricResults).sort();
     const run2Keys = Object.keys(run2.metricResults).sort();
 
-    expect(run1Keys.length).toBe(39);
-    expect(run2Keys.length).toBe(39);
+    expect(run1Keys.length).toBe(47);
+    expect(run2Keys.length).toBe(47);
     expect(run1Keys).toEqual(expectedKeys);
     expect(run2Keys).toEqual(expectedKeys);
   });

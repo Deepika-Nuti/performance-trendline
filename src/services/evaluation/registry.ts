@@ -75,19 +75,50 @@ export const registry: any[] = [
   },
   { id: 'custom-drift', name: 'Custom Drift', description: 'Measures drift using a user-defined statistical method.', category: 'Drift', implementation: evaluateCustomDrift, inputBuilder: (rows: any, ctx: any) => buildCustomDriftInputs(ctx), type: 'distribution', higherIsBetter: false
   },
-  { id: 'statistical-parity-difference', name: 'Statistical Parity Difference', description: 'Measures the gap in selection rates between groups.', category: 'Fairness', implementation: calculateSPD, inputBuilder: buildFairnessInputs, type: 'group/aggregate'
+  ...['Gender', 'Disability', 'Religion/Belief', 'Sexual Orientation', 'Age Group'].flatMap(col => [
+    {
+      id: `statistical-parity-difference-${col.toLowerCase().replace(/[^a-z0-9]/g, '-')}`,
+      name: `Statistical Parity Difference (${col})`,
+      description: `Measures the gap in selection rates between groups for ${col}.`,
+      category: 'Fairness',
+      implementation: (inputs: any) => {
+        const value = calculateSPD(inputs.unprivSelected, inputs.unprivTotal, inputs.privSelected, inputs.privTotal);
+        return { value, details: inputs.details };
+      },
+      inputBuilder: (rows: any, ctx: any) => buildFairnessInputs(rows, ctx, col),
+      type: 'group/aggregate'
+    },
+    {
+      id: `disparate-impact-${col.toLowerCase().replace(/[^a-z0-9]/g, '-')}`,
+      name: `Disparate Impact (${col})`,
+      description: `Ratio of favorable-outcome rates between unprivileged and privileged groups for ${col}.`,
+      category: 'Fairness',
+      implementation: (inputs: any) => {
+        const value = calculateDI(inputs.unprivSelected, inputs.unprivTotal, inputs.privSelected, inputs.privTotal);
+        return { value, details: inputs.details };
+      },
+      inputBuilder: (rows: any, ctx: any) => buildFairnessInputs(rows, ctx, col),
+      type: 'group/aggregate',
+      higherIsBetter: true
+    }
+  ]),
+  { id: 'equal-opportunity-difference', name: 'Equal Opportunity Difference', description: 'Compares the true positive rate across unprivileged and privileged groups.', category: 'Fairness', implementation: calculateEOD, inputBuilder: buildUnavailableInput('requires ground truth labels to compute true positive rates, not present in this batch'), type: 'configuration'
   },
-  { id: 'disparate-impact', name: 'Disparate Impact', description: 'Ratio of favorable-outcome rates between unprivileged and privileged groups.', category: 'Fairness', implementation: calculateDI, inputBuilder: buildFairnessInputs, type: 'group/aggregate', higherIsBetter: true
+  { id: 'average-odds-difference', name: 'Average Odds Difference', description: 'Group fairness metric comparing TPR and FPR between unprivileged and privileged groups.', category: 'Fairness', implementation: calculateAOD, inputBuilder: buildUnavailableInput('requires ground truth labels to compute true positive/false positive rates, not present in this batch'), type: 'configuration'
   },
-  { id: 'equal-opportunity-difference', name: 'Equal Opportunity Difference', description: 'Compares the true positive rate across unprivileged and privileged groups.', category: 'Fairness', implementation: calculateEOD, inputBuilder: buildFairnessInputs, type: 'group/aggregate'
+  { id: 'reasoning-correctness', name: 'Reasoning Correctness', description: 'Fraction of gold-standard reasoning steps reproduced correctly.', category: 'Reasoning & Transparency', implementation: (h: any, r: any) => {
+      if (!r) return { status: 'not_available', reason: 'no gold_steps reference for this batch — requires authored reference reasoning chains' };
+      return calculateRC(h.map((step: any) => step.text || step), r);
+    }, inputBuilder: buildReasoningInputs, type: 'row-level', higherIsBetter: true
   },
-  { id: 'average-odds-difference', name: 'Average Odds Difference', description: 'Group fairness metric comparing TPR and FPR between unprivileged and privileged groups.', category: 'Fairness', implementation: calculateAOD, inputBuilder: buildFairnessInputs, type: 'group/aggregate'
+  { id: 'stepwise-integrity', name: 'Stepwise Integrity', description: 'Fraction of reasoning steps that are both logically valid and factually correct.', category: 'Reasoning & Transparency', implementation: (h: any, r: any) => {
+      if (!r) return { status: 'not_available', reason: 'no gold_steps reference for this batch — requires authored reference reasoning chains' };
+      return calculateSI(h.map((step: any) => step.text || step), r);
+    }, inputBuilder: buildReasoningInputs, type: 'row-level', higherIsBetter: true
   },
-  { id: 'reasoning-correctness', name: 'Reasoning Correctness', description: 'Fraction of gold-standard reasoning steps reproduced correctly.', category: 'Reasoning & Transparency', implementation: calculateRC, inputBuilder: buildReasoningInputs, type: 'row-level', higherIsBetter: true
-  },
-  { id: 'stepwise-integrity', name: 'Stepwise Integrity', description: 'Fraction of reasoning steps that are both logically valid and factually correct.', category: 'Reasoning & Transparency', implementation: calculateSI, inputBuilder: buildReasoningInputs, type: 'row-level', higherIsBetter: true
-  },
-  { id: 'traceability-explainability', name: 'Traceability/Explainability', description: 'Fraction of reasoning steps that carry a justification or cited source.', category: 'Reasoning & Transparency', implementation: calculateTE, inputBuilder: buildReasoningInputs, type: 'row-level', higherIsBetter: true
+  { id: 'traceability-explainability', name: 'Traceability/Explainability', description: 'Fraction of reasoning steps that carry a justification or cited source.', category: 'Reasoning & Transparency', implementation: (h: any) => {
+      return calculateTE(h); // calculateTE expects objects with .hasJustification
+    }, inputBuilder: buildReasoningInputs, type: 'row-level', higherIsBetter: true
   },
   { id: 'transparency-score', name: 'Transparency Score', description: 'Weighted average of transparency factors.', category: 'Reasoning & Transparency', implementation: calculateTS, inputBuilder: () => buildGovernanceInputs(null), type: 'configuration', higherIsBetter: true
   },

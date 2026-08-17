@@ -33,7 +33,7 @@ export function evaluateMetric(metricDefinition: any, evaluationContext: any) {
                 ? metricDefinition.implementation(input.candidate, input.reference, n)
                 : metricDefinition.implementation(input.candidate, input.reference);
             val = res?.f1; 
-        } else if (input.h !== undefined && input.r !== undefined) {
+        } else if (input.h !== undefined) {
             if (metricDefinition.id === 'hallucination-flag') {
                 val = metricDefinition.implementation(input.h, input.r, input.humanHallucinationLabel);
             } else {

@@ -67,8 +67,14 @@ export const MetricGrid: React.FC<Props> = ({ run, previousRun }) => {
                       <span style={{ fontSize: '24px', fontWeight: 600, color: 'var(--text-primary)' }}>
                         {(result as any).value !== undefined ? (result as any).value.toFixed(4) : ''}
                       </span>
+                      {result.details && result.details.warning && (
+                        <div style={{ fontSize: '11px', color: 'var(--status-warning)', marginTop: '4px', background: 'rgba(255, 170, 0, 0.1)', padding: '6px', borderRadius: '4px', lineHeight: '1.4' }}>
+                          <AlertCircle size={12} style={{ display: 'inline', marginRight: '4px', verticalAlign: 'text-bottom' }} />
+                          {result.details.warning}
+                        </div>
+                      )}
                       {result.details && result.details.classification && (
-                        <span style={{ fontSize: '12px', color: result.details.classification.includes('Significant') ? 'var(--status-danger)' : result.details.classification.includes('Moderate') ? 'var(--status-warning)' : 'var(--status-success)' }}>
+                        <span style={{ fontSize: '12px', color: result.details.classification.includes('Significant') ? 'var(--status-danger)' : result.details.classification.includes('Moderate') ? 'var(--status-warning)' : 'var(--status-success)', marginTop: '4px' }}>
                           {result.details.classification}
                         </span>
                       )}
