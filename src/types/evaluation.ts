@@ -29,6 +29,13 @@ export interface MetricRegistryEntry {
   priority?: number;
 }
 
+export interface KnowledgeBase {
+  id: string;
+  name: string;
+  uploadedAt: string;
+  files: Array<{ name: string, size: number }>;
+}
+
 export interface EvaluationRun {
   runId: string;
   timestamp: string;
@@ -38,6 +45,8 @@ export interface EvaluationRun {
   sampleCount: number;
   availableCanonicalFields: string[];
   metricResults: Record<string, MetricResult>;
+  kbId?: string;
+  baselineRunId?: string;
   metadata: {
     uploadedFileName: string;
     normalizationMapUsed: Record<string, string>;

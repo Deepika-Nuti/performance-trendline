@@ -13,7 +13,9 @@ export async function processBatchUpload(
   file: File,
   modelName: string,
   modelVersion: string,
-  datasetName: string
+  datasetName: string,
+  kbId?: string,
+  baselineRunId?: string
 ): Promise<BatchUploadResult> {
   const isXlsx = file.name.endsWith('.xlsx') || file.name.endsWith('.xls');
   const isJson = file.name.endsWith('.json');
@@ -58,7 +60,7 @@ export async function processBatchUpload(
       async function processRows(rows: any[]) {
         try {
           // Call the v2 ground-truth engine to normalize, build inputs, evaluate, and save.
-          const run = await runEvaluation(datasetName, rows, modelName, modelVersion);
+          const run = await runEvaluation(datasetName, rows, modelName, modelVersion, kbId, baselineRunId);
           
           // Inject UI-requested overrides that the engine currently mocks
           run.metadata.uploadedFileName = file.name;

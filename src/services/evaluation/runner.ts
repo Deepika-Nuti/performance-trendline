@@ -5,12 +5,15 @@ import { saveRun, getRuns, saveRunData, getRunData } from '../storage/evaluation
 import { EvaluationRun, MetricResult } from '../../types/evaluation';
 import { v4 as uuidv4 } from 'uuid';
 
-export async function runEvaluation(datasetName: string, rawRows: any[], modelName: string, modelVersion: string): Promise<EvaluationRun> {
+export async function runEvaluation(datasetName: string, rawRows: any[], modelName: string, modelVersion: string, kbId?: string, baselineRunId?: string): Promise<EvaluationRun> {
   const normalizedRows = normalizeDataset(rawRows);
   const previousRuns = await getRuns();
 
   const scopedRuns = previousRuns.filter(r => r.modelName === modelName && r.modelVersion === modelVersion);
-  const baselineRun = scopedRuns.length > 0 ? scopedRuns[scopedRuns.length - 1] : null;
+  let baselineRun = baselineRunId ? previousRuns.find(r => r.runId === baselineRunId) : null;
+  if (!baselineRun) {
+     baselineRun = scopedRuns.length > 0 ? scopedRuns[scopedRuns.length - 1] : null;
+  }
   let baselineRunRows: any[] | undefined = undefined;
   if (baselineRun) {
     baselineRunRows = await getRunData(baselineRun.runId);
@@ -22,6 +25,7 @@ export async function runEvaluation(datasetName: string, rawRows: any[], modelNa
     normalizedRows,
     rawRows,
     baselineRunRows,
+    baselineExplicitlySelected: !!baselineRunId,
     previousRuns,
     currentRunScope: { modelName, modelVersion },
     datasetMetadata: { name: datasetName },
@@ -48,6 +52,8 @@ export async function runEvaluation(datasetName: string, rawRows: any[], modelNa
     sampleCount: rawRows.length,
     availableCanonicalFields: ['generated_text', 'reference_text', 'question'],
     metricResults,
+    kbId,
+    baselineRunId,
     metadata: {
       uploadedFileName: datasetName,
       normalizationMapUsed: {}

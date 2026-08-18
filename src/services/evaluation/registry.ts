@@ -133,7 +133,7 @@ export const registry: any[] = [
       const value = calculateProvenanceCompletenessScore({ entailmentIndicators: ei, citationIndicators: ci, alpha: 0.5 });
       return { value, details: { baseProvenanceScore: base } };
     },
-    inputBuilder: buildUnavailableInput('requires structured citation array and source corpus entailment indicators, not present in this batch'), higherIsBetter: true, excludeFromVerdict: true, type: 'configuration'
+    inputBuilder: buildUnavailableInput('Knowledge Base linked, but retrieval/entailment-checking logic is not yet implemented.'), higherIsBetter: true, excludeFromVerdict: true, type: 'configuration'
   },
   { governancePriority: true, governanceCategory: 'Governance & Readiness', id: 'auditability-level', name: 'Auditability Level', description: 'Measures completeness, tamper-resistance, and replayability of an AI system\'s history.', category: 'Governance',
     implementation: (args: any) => {
@@ -143,7 +143,33 @@ export const registry: any[] = [
       const value = calculateCompositeAuditability({ logFieldCompleteness: logField, ledgerIntegrity: 0.5, replayEquivalence: replay, w1: 0.33, w2: 0.33, w3: 0.34 });
       return { value, details: { logFieldCompleteness: logField, ledgerIntegrity: ledger, replayEquivalence: replay } };
     },
-    inputBuilder: buildUnavailableInput('requires structured audit log with hash-chain data, not present in this batch'), higherIsBetter: true, excludeFromVerdict: true, type: 'configuration'
+    inputBuilder: (rows: any[], ctx: any) => {
+        if (!ctx.baselineRunRows || !ctx.baselineExplicitlySelected) {
+          return { status: 'not_available', reason: 'requires explicit baseline run for replay equivalence' };
+        }
+        const replayEquivalence: number[] = [];
+        for (const row of rows) {
+          const q = row.raw?.question || row.raw?.['Employee_Questions'] || row.raw?.prompt;
+          const baselineRow = ctx.baselineRunRows.find((r: any) => {
+            const bq = r.question || r['Employee_Questions'] || r.prompt;
+            return bq === q;
+          });
+          if (baselineRow) {
+            const a1 = row.candidate;
+            const a2 = baselineRow.candidate || baselineRow.generated_text || baselineRow.Generated_Answers || baselineRow.prediction;
+            const set1 = new Set((a1||'').toLowerCase().split(/\s+/));
+            const set2 = new Set((a2||'').toLowerCase().split(/\s+/));
+            const intersection = new Set([...set1].filter(x => set2.has(x)));
+            const union = new Set([...set1, ...set2]);
+            replayEquivalence.push(union.size === 0 ? 1 : intersection.size / union.size);
+          }
+        }
+        if (replayEquivalence.length === 0) return { status: 'not_available', reason: 'no matching questions found in baseline run' };
+        return {
+          status: 'calculated',
+          value: { replayEquivalence }
+        };
+      }, higherIsBetter: true, excludeFromVerdict: true, type: 'configuration'
   },
   { governancePriority: true, governanceCategory: 'Governance & Readiness', id: 'compliance-adaptability', name: 'Compliance Adaptability', description: 'Measures speed and efficiency of incorporating new regulatory constraints.', category: 'Governance',
     implementation: (args: any) => {

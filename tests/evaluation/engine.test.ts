@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { runEvaluation } from '../../src/services/evaluation/runner';
 import { db } from '../../src/services/storage/evaluationStorage';
 import { registry } from '../../src/services/evaluation/registry';
-import { calculateBLEU, rouge1, calculateCompositeBiasIndex } from '../../src/services/metrics/logmark/index.js';
+import { calculateBLEU, rouge1, bleu, calculateCompositeBiasIndex } from '../../src/services/metrics/logmark/index.js';
  
 
 

@@ -1,9 +1,10 @@
 import Dexie, { Table } from 'dexie';
-import { EvaluationRun } from '../../types/evaluation';
+import { EvaluationRun, KnowledgeBase } from '../../types/evaluation';
 
 class EvaluationDatabase extends Dexie {
   runs!: Table<EvaluationRun, string>;
   runData!: Table<{ runId: string, rows: any[] }, string>;
+  knowledgeBases!: Table<KnowledgeBase, string>;
 
   constructor() {
     super('LogmarkModelPerformance');
@@ -14,10 +15,27 @@ class EvaluationDatabase extends Dexie {
       runs: 'runId, timestamp, modelName',
       runData: 'runId'
     });
+    this.version(3).stores({
+      runs: 'runId, timestamp, modelName',
+      runData: 'runId',
+      knowledgeBases: 'id, uploadedAt'
+    });
   }
 }
 
 export const db = new EvaluationDatabase();
+
+export async function saveKnowledgeBase(kb: KnowledgeBase): Promise<void> {
+  await db.knowledgeBases.put(kb);
+}
+
+export async function getKnowledgeBases(): Promise<KnowledgeBase[]> {
+  return await db.knowledgeBases.orderBy('uploadedAt').reverse().toArray();
+}
+
+export async function getKnowledgeBase(kbId: string): Promise<KnowledgeBase | undefined> {
+  return await db.knowledgeBases.get(kbId);
+}
 
 export async function saveRun(run: EvaluationRun): Promise<void> {
   await db.runs.put(run);

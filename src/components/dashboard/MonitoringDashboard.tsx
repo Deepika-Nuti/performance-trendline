@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { UploadCloud, Activity, CheckCircle, AlertTriangle, XCircle, HelpCircle } from 'lucide-react';
-import { EvaluationRun, OverallStatus, TrendStatus } from '../../types/evaluation';
-import { getLatestRun, getPreviousRun, getRuns as getAllRuns, clearRuns } from '../../services/storage/evaluationStorage';
+import { EvaluationRun, OverallStatus, TrendStatus, KnowledgeBase } from '../../types/evaluation';
+import { getLatestRun, getPreviousRun, getRuns as getAllRuns, clearRuns, getKnowledgeBases, saveKnowledgeBase } from '../../services/storage/evaluationStorage';
 import { processBatchUpload } from '../../services/evaluation/evaluationRunner';
 import { getOverallStatus, getMetricTrend } from '../../services/evaluation/TrendAnalysis';
 import { registry } from '../../services/evaluation/registry';
@@ -25,6 +25,9 @@ export const MonitoringDashboard: React.FC<DashboardProps> = ({ modelName, model
   const [allRuns, setAllRuns] = useState<EvaluationRun[]>([]);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
+  const [kbs, setKbs] = useState<KnowledgeBase[]>([]);
+  const [selectedKbId, setSelectedKbId] = useState<string>('');
+  const [selectedBaselineRunId, setSelectedBaselineRunId] = useState<string>('');
 
   useEffect(() => {
     loadData();
@@ -39,7 +42,34 @@ export const MonitoringDashboard: React.FC<DashboardProps> = ({ modelName, model
       setLatestRun(runs[0]);
       setPreviousRun(runs.length > 1 ? runs[1] : undefined);
     }
+    
+    const loadedKbs = await getKnowledgeBases();
+    setKbs(loadedKbs);
+
     setLoading(false);
+  };
+
+  const handleKbUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (!files || files.length === 0) return;
+    
+    const kbName = prompt('Enter a name for this Knowledge Base:', files[0].name.replace(/\.[^/.]+$/, ""));
+    if (!kbName) {
+      event.target.value = '';
+      return;
+    }
+    
+    const newKb: KnowledgeBase = {
+      id: `kb_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
+      name: kbName,
+      uploadedAt: new Date().toISOString(),
+      files: Array.from(files).map(f => ({ name: f.name, size: f.size }))
+    };
+    
+    await saveKnowledgeBase(newKb);
+    await loadData();
+    setSelectedKbId(newKb.id);
+    event.target.value = '';
   };
 
   const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,7 +84,7 @@ export const MonitoringDashboard: React.FC<DashboardProps> = ({ modelName, model
 
     setUploading(true);
     try {
-      await processBatchUpload(file, modelName.trim(), modelVersion.trim(), file.name.replace(/\.[^/.]+$/, ""));
+      await processBatchUpload(file, modelName.trim(), modelVersion.trim(), file.name.replace(/\.[^/.]+$/, ""), selectedKbId, selectedBaselineRunId);
       await loadData();
     } catch (e) {
       console.error(e);
@@ -114,6 +144,40 @@ export const MonitoringDashboard: React.FC<DashboardProps> = ({ modelName, model
               onChange={e => onModelChange(modelName, e.target.value)}
               style={{ width: '100px', padding: '8px 12px', borderRadius: '6px', border: '1px solid var(--panel-border)', background: 'var(--panel-bg)', color: 'var(--text-primary)' }}
             />
+          </div>
+          <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+            <select
+              value={selectedKbId}
+              onChange={e => setSelectedKbId(e.target.value)}
+              style={{ padding: '8px 12px', borderRadius: '6px', border: '1px solid var(--panel-border)', background: 'var(--panel-bg)', color: 'var(--text-primary)', minWidth: '150px' }}
+            >
+              <option value="">No KB Linked</option>
+              {kbs.map(kb => (
+                <option key={kb.id} value={kb.id}>{kb.name}</option>
+              ))}
+            </select>
+            <label className="btn-secondary" style={{ cursor: uploading ? 'not-allowed' : 'pointer' }}>
+              <UploadCloud size={14} /> Upload KB
+              <input 
+                type="file" 
+                multiple
+                style={{ display: 'none' }} 
+                onChange={handleKbUpload}
+                disabled={uploading}
+              />
+            </label>
+          </div>
+          <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+            <select
+              value={selectedBaselineRunId}
+              onChange={e => setSelectedBaselineRunId(e.target.value)}
+              style={{ padding: '8px 12px', borderRadius: '6px', border: '1px solid var(--panel-border)', background: 'var(--panel-bg)', color: 'var(--text-primary)', minWidth: '200px' }}
+            >
+              <option value="">No Baseline (Auto / None)</option>
+              {allRuns.map(run => (
+                <option key={run.runId} value={run.runId}>{run.runId} - {new Date(run.timestamp).toLocaleString()}</option>
+              ))}
+            </select>
           </div>
           <div style={{ display: 'flex', gap: '12px' }}>
             <label className="btn" style={{ cursor: uploading ? 'not-allowed' : 'pointer' }}>
