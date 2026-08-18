@@ -377,12 +377,12 @@ export function buildReasoningInputs(normalizedRows: NormalizedRow[]): BuilderRe
     let llmSteps: any[] | undefined = row.raw.llm_steps;
     
     if (!llmSteps) {
-  const c = typeof rawReasoning === 'string' ? rawReasoning : (row.candidate || '');
+  const c = typeof rawReasoning === 'string' ? rawReasoning : (row.generated_text || '');
   const sentences = c.split(/[.?!]\s+/).filter(Boolean);
   const parsedSteps = sentences.map(text => ({ text, hasJustification: text.length > 20 }));
   llmSteps = parsedSteps;
   row.raw.llm_steps = parsedSteps;
-  row.raw.gold_steps = [row.reference || 'mock'];
+  row.raw.gold_steps = [row.reference_text || 'mock'];
 }
 if (false) {
       const stepRegex = /Step \d+ — (.*?)(?=Step \d+ — |$)/gs;
